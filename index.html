@@ -1,0 +1,79 @@
+<!DOCTYPE >
+
+<html>
+  <head>
+    <title>cytoscape-avsdf.js demo</title>
+
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1"
+    />
+
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+    <!--polyfills are needed for this extension for old browsers like IE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/shim.min.js"></script>
+
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/avsdf-base/avsdf-base.js"></script>
+
+    <style>
+      body {
+        font-family: helvetica;
+        font-size: 15px;
+      }
+
+      #cy {
+        width: 100%;
+        height: 90%;
+        z-index: 999;
+      }
+
+      h1 {
+        opacity: 0.5;
+        font-size: 1em;
+        font-weight: bold;
+      }
+
+      button {
+        font-size: 15px;
+        margin-right: 10px;
+      }
+
+      .line {
+        clear: left;
+        height: 25px;
+        margin-top: 6px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+      }
+
+      .radio {
+        margin-left: 25px;
+      }
+    </style>
+    <script type="text/javascript" src="main.js"></script>
+  </head>
+
+  <body>
+    <h1>cytoscape-avsdf demo</h1>
+    <a data-toggle="tooltip" data-placement="auto" title="Add Node">
+      <button id="layoutButton" type="button">Add Node</button>
+    </a>
+
+    <a data-toggle="tooltip" data-placement="auto" title="Add Edge">
+      <button id="layoutButton" type="button">Add Edge</button>
+    </a>
+
+    <a
+      data-toggle="tooltip"
+      data-placement="auto"
+      title="Places the nodes circularly as a randomly permuted sequence"
+    >
+      <button id="randomize" type="button">Randomize Layout</button>
+    </a>
+
+    <div id="cy"></div>
+    <div id="poly"></div>
+  </body>
+</html>
