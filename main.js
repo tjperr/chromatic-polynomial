@@ -41,15 +41,15 @@ document.addEventListener("DOMContentLoaded", function () {
       edges: [
         { data: { source: "v1", target: "v2", directed: "false" } },
         { data: { source: "v1", target: "v4", directed: "false" } },
-        { data: { source: "v1", target: "v5", directed: "false" } },
+        // { data: { source: "v1", target: "v5", directed: "false" } },
         // { data: { source: "v2", target: "v4", directed: "false" } },
-        // { data: { source: "v2", target: "v6", directed: "false" } },
+        { data: { source: "v2", target: "v6", directed: "false" } },
         // { data: { source: "v6", target: "v4", directed: "false" } },
         // { data: { source: "v3", target: "v7", directed: "false" } },
         // { data: { source: "v4", target: "v5", directed: "false" } },
         // { data: { source: "v4", target: "v7", directed: "false" } },
         // { data: { source: "v5", target: "v6", directed: "false" } },
-        // { data: { source: "v6", target: "v7", directed: "false" } },
+        { data: { source: "v6", target: "v4", directed: "false" } },
         // { data: { source: "v6", target: "v3", directed: "false" } },
       ],
     },
@@ -108,6 +108,10 @@ function describe(e) {
 function edgedescribe(e) {
   return [e.source().id(), e.target().id()];
 }
+
+function clone(x) {
+  return JSON.parse(JSON.stringify(x));
+}
 function update() {
   var polynomial = [];
   for (var i = 0; i < cy.nodes().length; i++) {
@@ -129,17 +133,15 @@ function update() {
       polynomial[nodes.length - 1] += sign;
     } else {
       // deletion
-      const edgeCopy = [...edges];
+      const edgeCopy = clone(edges);
       const edge = edgeCopy.pop();
-      const edgeContCopy = [...edgeCopy];
-
       const x = edge[0];
       const y = edge[1];
 
       console.log("edge: " + x + " " + y);
 
       console.log("del");
-      calculatePoly([...nodes], [...edgeCopy], sign);
+      calculatePoly([...nodes], edgeCopy, sign);
 
       // contraction
       console.log("cont " + edge);
@@ -149,6 +151,7 @@ function update() {
         return n !== x;
       });
 
+      const edgeContCopy = clone(edges);
       console.log(JSON.stringify(edgeContCopy));
 
       edgeContCopy.forEach((e) => {
@@ -159,14 +162,22 @@ function update() {
         }
       });
 
-      // remove loops and multiple edges
-      const edgeCopyReduced = [
-        ...new Set(
-          edgeContCopy.filter((e) => {
-            return e[0] !== e[1];
-          })
-        ),
-      ];
+      // TODO
+      // Edge list is weird at the first contraction, i.e. when performing the first cont
+      // traction on the original graph. Incorrect poly for star with 4 vtcs and 4-cycle
+
+      // remove loops
+      const noLoops = edgeContCopy.filter((e) => {
+        return e[0] !== e[1];
+      });
+
+      // remove multiple edges
+      const edgeCopyReduced = [...new Set(noLoops.map(JSON.stringify))].map(
+        JSON.parse
+      );
+
+      console.log("REDUCED");
+      console.log(JSON.stringify(edgeCopyReduced));
 
       calculatePoly(nodeCopy, edgeCopyReduced, (sign = -1 * sign));
     }
