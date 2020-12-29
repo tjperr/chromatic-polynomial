@@ -4,4 +4,4 @@ The [chromatic polynomial](https://en.wikipedia.org/wiki/Chromatic_polynomial) i
 
 This application enables the user to draw a graph and obtain its chromatic polynomial.
 
-# [Open the Application](https://tjperr.github.io/chromatic-polynomial/)
+_[Open the Application](https://tjperr.github.io/chromatic-polynomial/)_
