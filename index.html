@@ -58,15 +58,22 @@
   <body>
     <h1>Chromatic Polynomial Calculator</h1>
 
+    <h2>Instructions</h2>
+    <p>
+      Click the background to add a node. Click two nodes in turn to add an edge
+      between them. Loops and multiple edges are not allowed.
+    </p>
     <a
       data-toggle="tooltip"
       data-placement="auto"
       title="Places the nodes circularly as a randomly permuted sequence"
     >
-      <button id="randomize" type="button">Randomize Layout</button>
+      <button id="randomize" type="button">Random Circular Layout</button>
     </a>
 
-    <div id="poly"></div>
+    <div>
+      <p id="poly"></p>
+    </div>
     <div id="cy"></div>
   </body>
 </html>
