@@ -34,22 +34,22 @@ document.addEventListener("DOMContentLoaded", function () {
         { data: { id: "v2", weight: 2 } },
         { data: { id: "v3", weight: 3 } },
         { data: { id: "v4", weight: 4 } },
-        { data: { id: "v5", weight: 5 } },
-        { data: { id: "v6", weight: 6 } },
-        { data: { id: "v7", weight: 7 } },
+        // { data: { id: "v5", weight: 5 } },
+        // { data: { id: "v6", weight: 6 } },
+        // { data: { id: "v7", weight: 7 } },
       ],
       edges: [
         { data: { source: "v1", target: "v2", directed: "false" } },
         { data: { source: "v1", target: "v4", directed: "false" } },
-        // { data: { source: "v1", target: "v5", directed: "false" } },
-        // { data: { source: "v2", target: "v4", directed: "false" } },
-        { data: { source: "v2", target: "v6", directed: "false" } },
-        // { data: { source: "v6", target: "v4", directed: "false" } },
+        { data: { source: "v1", target: "v3", directed: "false" } },
+        { data: { source: "v2", target: "v4", directed: "false" } },
+        { data: { source: "v4", target: "v3", directed: "false" } },
+        { data: { source: "v2", target: "v3", directed: "false" } },
         // { data: { source: "v3", target: "v7", directed: "false" } },
         // { data: { source: "v4", target: "v5", directed: "false" } },
         // { data: { source: "v4", target: "v7", directed: "false" } },
-        // { data: { source: "v5", target: "v6", directed: "false" } },
-        { data: { source: "v6", target: "v4", directed: "false" } },
+        // { data: { source: "v1", target: "v6", directed: "false" } },
+        // { data: { source: "v6", target: "v4", directed: "false" } },
         // { data: { source: "v6", target: "v3", directed: "false" } },
       ],
     },
@@ -134,7 +134,7 @@ function update() {
     } else {
       // deletion
       const edgeCopy = clone(edges);
-      const edge = edgeCopy.pop();
+      const edge = clone(edgeCopy.pop());
       const x = edge[0];
       const y = edge[1];
 
@@ -157,20 +157,33 @@ function update() {
       edgeContCopy.forEach((e) => {
         if (e[0] === x) {
           e[0] = y;
-        } else {
+        } else if (e[1] === x) {
           e[1] = y;
         }
       });
 
-      // TODO
-      // Edge list is weird at the first contraction, i.e. when performing the first cont
-      // traction on the original graph. Incorrect poly for star with 4 vtcs and 4-cycle
+      console.log("ADJUSTMENT");
+      console.log(JSON.stringify(edgeContCopy));
 
       // remove loops
-      const noLoops = edgeContCopy.filter((e) => {
-        return e[0] !== e[1];
-      });
+      const noLoops = edgeContCopy
+        .filter((e) => {
+          return e[0] !== e[1];
+        })
+        .map((e) => {
+          // always order edges in the same way to
+          // aid removal of multiple edges
+          if (e[0] < e[1]) {
+            return e;
+          } else {
+            return [e[1], e[0]];
+          }
+        });
 
+      console.log("NO LOOPS");
+      console.log(JSON.stringify(noLoops));
+
+      noLoops.ma;
       // remove multiple edges
       const edgeCopyReduced = [...new Set(noLoops.map(JSON.stringify))].map(
         JSON.parse
@@ -183,3 +196,9 @@ function update() {
     }
   }
 }
+
+// Works for:
+// P1, P2, P3, P4
+// S3, S4
+// C3, C4, C5
+// K4
