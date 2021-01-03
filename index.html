@@ -48,32 +48,45 @@
         margin-bottom: 6px;
       }
 
-      .radio {
-        margin-left: 25px;
+      .box {
+        display: flex;
+        flex-flow: column;
+        height: 100%;
+      }
+
+      .box .header {
+        flex: 0 1 auto;
+      }
+      .box .content {
+        flex: 1 1 auto;
       }
     </style>
     <script type="text/javascript" src="main.js"></script>
   </head>
 
   <body>
-    <h1>Chromatic Polynomial Calculator</h1>
+    <div class="box">
+      <div class="header">
+        <h1>Chromatic Polynomial Calculator</h1>
 
-    <h2>Instructions</h2>
-    <p>
-      Click the background to add a node. Click two nodes in turn to add an edge
-      between them. Loops and multiple edges are not allowed.
-    </p>
-    <a
-      data-toggle="tooltip"
-      data-placement="auto"
-      title="Places the nodes circularly as a randomly permuted sequence"
-    >
-      <button id="randomize" type="button">Random Circular Layout</button>
-    </a>
-
-    <div>
-      <p id="poly"></p>
+        <h2>Instructions</h2>
+        <p>
+          Click the background to add a node. Click two nodes in turn to add an
+          edge between them. Loops and multiple edges are not allowed.
+        </p>
+        <a
+          data-toggle="tooltip"
+          data-placement="auto"
+          title="Places the nodes circularly as a randomly permuted sequence"
+        >
+          <button id="randomize" type="button">Random Circular Layout</button>
+          <button id="calculate" type="button">Calculate</button>
+        </a>
+      </div>
+      <div class="header">
+        <p id="poly"></p>
+      </div>
+      <div class="content" id="cy"></div>
     </div>
-    <div id="cy"></div>
   </body>
 </html>

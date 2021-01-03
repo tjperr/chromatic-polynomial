@@ -54,7 +54,12 @@ document.addEventListener("DOMContentLoaded", function () {
       ],
     },
   }));
-  update();
+  document.getElementById("poly").innerHTML = "Press Calculate";
+
+  document.getElementById("calculate").addEventListener("click", function () {
+    document.getElementById("poly").innerHTML = "Calculating...";
+    update();
+  });
 
   document.getElementById("randomize").addEventListener("click", function () {
     cy.nodes().forEach(function (ele) {
@@ -72,10 +77,10 @@ document.addEventListener("DOMContentLoaded", function () {
       animationEasing: "ease-in-out",
     });
     layout.run();
-    update();
   });
 
   cy.on("tap", function (event) {
+    document.getElementById("poly").innerHTML = "Press Calculate";
     // target holds a reference to the originator
     // of the event (core or element)
     var evtTarget = event.target;
@@ -117,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
         edgeStart = evtTarget;
       }
     }
-    update();
   });
 });
 
@@ -159,6 +163,7 @@ function edgedescribe(e) {
 function clone(x) {
   return JSON.parse(JSON.stringify(x));
 }
+
 function update() {
   var polynomial = [];
   for (var i = 0; i < cy.nodes().length; i++) {
