@@ -61,6 +61,10 @@ document.addEventListener("DOMContentLoaded", function () {
     update();
   });
 
+  document.getElementById("delete").addEventListener("click", function () {
+    cy.remove(cy.nodes());
+  });
+
   document.getElementById("randomize").addEventListener("click", function () {
     cy.nodes().forEach(function (ele) {
       ele.data().weight = Math.floor(Math.random() * 10 + 1);
@@ -87,9 +91,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (evtTarget === cy) {
       // tap on background
-
-      const maxId = Math.max(...cy.nodes().map(describe).map(parseFloat));
-
+      var maxId;
+      if (cy.nodes().map(describe).length === 0) {
+        maxId = 0;
+      } else {
+        maxId = Math.max(...cy.nodes().map(describe).map(parseFloat));
+      }
       cy.add({
         group: "nodes",
         data: { id: maxId + 1 },
