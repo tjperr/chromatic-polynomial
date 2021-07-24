@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
       ],
     },
   }));
-  document.getElementById("poly").innerHTML = "Press Calculate";
 
   document.getElementById("calculate").addEventListener("click", function () {
     document.getElementById("poly").innerHTML = "Calculating...";
@@ -66,21 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.getElementById("randomize").addEventListener("click", function () {
-    cy.nodes().forEach(function (ele) {
-      ele.data().weight = Math.floor(Math.random() * 10 + 1);
-    });
-
-    var layout = cy.layout({
-      name: "circle",
-      animate: true,
-      sort: function (a, b) {
-        return a.data("weight") - b.data("weight");
-      },
-      radius: 120,
-      animationDuration: 1000,
-      animationEasing: "ease-in-out",
-    });
-    layout.run();
+    randomise();
   });
 
   cy.on("tap", function (event) {
@@ -130,9 +115,29 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
+  randomise();
+  update();
 });
 
 var edgeStart = null; // records first node when adding an edge
+
+function randomise() {
+  cy.nodes().forEach(function (ele) {
+    ele.data().weight = Math.floor(Math.random() * 10 + 1);
+  });
+
+  var layout = cy.layout({
+    name: "circle",
+    animate: true,
+    sort: function (a, b) {
+      return a.data("weight") - b.data("weight");
+    },
+    radius: 120,
+    animationDuration: 1000,
+    animationEasing: "ease-in-out",
+  });
+  layout.run();
+}
 
 function render(a) {
   var output = "P(G) = ";
